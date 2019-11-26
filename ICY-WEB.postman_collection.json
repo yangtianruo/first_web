@@ -1,0 +1,505 @@
+{
+	"info": {
+		"_postman_id": "4d47aa46-d190-9397-ce6f-19f61a39855d",
+		"name": "ICY-WEB",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "登录-（不醒来测试）",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "cf1c2e0d-d5fc-427e-a39a-4f08a0057439",
+						"exec": [
+							"pm.environment.set(\"phoneNumber\",\"18977778888\");",
+							"pm.environment.set(\"phoneNumber\",\"13524547352\");",
+							"pm.environment.set(\"validateCode\",\"2222\");",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Cache-Control",
+						"value": "no-cache"
+					},
+					{
+						"key": "Host",
+						"value": "icy.design"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "phoneNumber",
+							"value": "{{phoneNumber}}",
+							"type": "text"
+						},
+						{
+							"key": "validateCode",
+							"value": "{{validateCode}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://icy.design/m.php?method=User.loginByValidateCode",
+					"protocol": "https",
+					"host": [
+						"icy",
+						"design"
+					],
+					"path": [
+						"m.php"
+					],
+					"query": [
+						{
+							"key": "method",
+							"value": "User.loginByValidateCode"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ICY-首页",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c86a2496-96e1-4a9d-8bfd-650c90bac2c8",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							" console.log(data);",
+							"postman.setEnvironmentVariable(\"token\",data.token);",
+							"",
+							"// tests[\"status code is 200\"] = responseCode.code == 200;",
+							"",
+							"// 判断状态是否包含200，202",
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200,202]);",
+							"});",
+							"",
+							"",
+							"",
+							"// pm.test(\"Status code is 200\", function () {",
+							"//     pm.response.to.have.status(200);",
+							"// });",
+							"// 判断状态码描述中是否包含result，通常不使用",
+							"// pm.test(\"Status code name has string\", function () {",
+							"//     pm.response.to.have.status(\"result\");",
+							"// });",
+							"",
+							"// 判断返回结果中，是否包括该字符串",
+							"pm.test(\"判断Response中是否包含bannerId\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"bannerId\");",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"从Json中获取某个字段的值，是否与预期的字段值相等\", function () {",
+							"    var jsonData = pm.response.json(); //将json字符串类型转化为js对象",
+							"    console.log(jsonData);//打印日志",
+							"    //获取JSON中hasLottery字段值是否等于0，注意字段结果是字符串类型时，需要用单引号引起来",
+							"    pm.expect(jsonData.data.hasLottery).to.eql(0);",
+							"});",
+							"",
+							"// 响应结果与字符串是否全部匹配预期的字符串；预期结果与实际结果要完全匹配",
+							"// pm.test(\"Body is correct\", function () {",
+							"//     pm.response.to.have.body(\"response_body_string\");",
+							"// });",
+							"",
+							"// 响应时间是否小于X秒",
+							"pm.test(\"响应时间是否小于2000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+							"});",
+							"",
+							"",
+							"// header使用的字符集类型",
+							"// pm.test(\"header使用的字符集类型\", function () {",
+							"//     pm.response.to.have.header(\"Content-Type\");",
+							"// });",
+							"",
+							"",
+							"// var jsonObject = xml2Json(responseBody);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": false
+			},
+			"request": {
+				"auth": {
+					"type": "basic"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "method",
+							"value": "icy.getHome",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://icy.design/icym.php?method=icy.getHome&appId=3&page=1&pageSize=5",
+					"protocol": "https",
+					"host": [
+						"icy",
+						"design"
+					],
+					"path": [
+						"icym.php"
+					],
+					"query": [
+						{
+							"key": "method",
+							"value": "icy.getHome"
+						},
+						{
+							"key": "appId",
+							"value": "3"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "pageSize",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "首页-主题跳转",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0bc6313b-0bb4-4ec2-8838-c0331b9c6312",
+						"exec": [
+							"",
+							"var data = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"token\",data.token);",
+							"postman.setEnvironmentVariable(\"title\",data.title);",
+							"",
+							"tests[\"status code is 200\"] = responseCode.code == 200;",
+							"",
+							"//var data = JSON.parse(responseBody);",
+							"//postman.setEnvironmentVariable(\"token\",data.token);",
+							"",
+							"//var data = JSON.parse(responseBody);",
+							"//postman.getEnvironmentVariable(\"title\",data.title);",
+							"",
+							"// let foo = responseBody.match(/foo/g);",
+							"// tests['title'] =foo[0] ==='titile';",
+							"// let foo ='title';",
+							"// let titile = responseBody.match(new RegExp(`^${foo}.*$`, 'g')); ",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "method",
+							"value": "media.getInfo ",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "appId",
+							"value": "4",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "mediaId",
+							"value": "1458831344",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "https://icy.design/m.php?method=media.getInfo&appId=4&mediaId=1458831344",
+					"protocol": "https",
+					"host": [
+						"icy",
+						"design"
+					],
+					"path": [
+						"m.php"
+					],
+					"query": [
+						{
+							"key": "method",
+							"value": "media.getInfo"
+						},
+						{
+							"key": "appId",
+							"value": "4"
+						},
+						{
+							"key": "mediaId",
+							"value": "1458831344"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "首页-单品数据卡片",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "52a2ffdd-89b6-400a-9a88-fd4ed33918bf",
+						"exec": [
+							"",
+							"",
+							"// 设置环境变量值为：https://apitest.icy.design；通过请求链接中{{url}}进行访问。",
+							"// pm.environment.set(\"url\", \"https://apitest.icy.design\");",
+							"",
+							"var data = JSON.parse(responseBody);",
+							"//postman.setEnvironmentVariable(\"token\",data.token);",
+							"postman.setEnvironmentVariable(\"title\",data.title);",
+							"",
+							"tests[\"status code is 200\"] = responseCode.code == 200;",
+							" ",
+							" "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "method",
+							"value": "goods.getListByCard",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://icy.design/m.php?method=goods.getListByCard&appId=4&pageSize=20&page=1&cardId=1479369417",
+					"protocol": "https",
+					"host": [
+						"icy",
+						"design"
+					],
+					"path": [
+						"m.php"
+					],
+					"query": [
+						{
+							"key": "method",
+							"value": "goods.getListByCard"
+						},
+						{
+							"key": "appId",
+							"value": "4"
+						},
+						{
+							"key": "pageSize",
+							"value": "20"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "cardId",
+							"value": "1479369417"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ICON 收藏",
+			"request": {
+				"auth": {
+					"type": "basic"
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://icy.design/icym.php?method=icy.collect&appId=4&type=1&dataType=0&dataValue=1476334795",
+					"protocol": "https",
+					"host": [
+						"icy",
+						"design"
+					],
+					"path": [
+						"icym.php"
+					],
+					"query": [
+						{
+							"key": "method",
+							"value": "icy.collect"
+						},
+						{
+							"key": "appId",
+							"value": "4"
+						},
+						{
+							"key": "type",
+							"value": "1"
+						},
+						{
+							"key": "dataType",
+							"value": "0"
+						},
+						{
+							"key": "dataValue",
+							"value": "1476334795"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "我的ICON收藏列表",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "50fe9a42-50d3-4987-b30c-ead5d0a06d80",
+						"exec": [
+							"// 判断返回结果中，是否包括该字符串",
+							"// pm.test(\"判断Response中是否包含collocationId\", function () {",
+							"//     var jsonData = pm.response.json();",
+							"//     console.log(jsonData);",
+							"//     pm.expect(jsonData.data.list[0].collocationId).to.eql(1476334801)",
+							"//     // pm.expect(pm.response.text()).to.include(\"collocationId: 1476334795\");",
+							"// });",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://icy.design/icym.php?method=icy.getCollectCollocation&appId=4&page=1&pageSize=100",
+					"protocol": "https",
+					"host": [
+						"icy",
+						"design"
+					],
+					"path": [
+						"icym.php"
+					],
+					"query": [
+						{
+							"key": "method",
+							"value": "icy.getCollectCollocation"
+						},
+						{
+							"key": "appId",
+							"value": "4"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "pageSize",
+							"value": "100"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "商品收藏",
+			"protocolProfileBehavior": {
+				"followRedirects": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://icy.design/m.php?method=icy.collectGoods&appId=4&goodsId=27021599158394780",
+					"protocol": "https",
+					"host": [
+						"icy",
+						"design"
+					],
+					"path": [
+						"m.php"
+					],
+					"query": [
+						{
+							"key": "method",
+							"value": "icy.collectGoods"
+						},
+						{
+							"key": "appId",
+							"value": "4"
+						},
+						{
+							"key": "goodsId",
+							"value": "27021599158394780"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
